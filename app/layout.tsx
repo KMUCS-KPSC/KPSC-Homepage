@@ -1,22 +1,30 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v15-appRouter';
+import {CssBaseline, ThemeProvider} from "@mui/material";
+import CustomAppBar from "@/components/AppBar";
+
+import darkTheme from "@/styles/theme";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "KPSC Web Project",
   description: "KPSC Web Project",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
+export default function RootLayout({children,}: Readonly<{ children: React.ReactNode; }>) {
+    return (
     <html lang="ko">
-      <body className={inter.className}>{children}</body>
+        <head/>
+        <CssBaseline/>
+        <body>
+        <AppRouterCacheProvider>
+            <ThemeProvider theme={darkTheme}>
+                <CustomAppBar/>
+                {children}
+            </ThemeProvider>
+        </AppRouterCacheProvider>
+        </body>
     </html>
-  );
+    );
 }
