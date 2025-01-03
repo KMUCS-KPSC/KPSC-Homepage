@@ -1,14 +1,16 @@
-import { QueryMember } from "@/src/notion";
+import { Member } from "@/src/object";
 import type { NextApiRequest, NextApiResponse } from "next";
 
 type ResponseData = {
-  message: JSON;
+  response: any;
 };
+
+const member = new Member();
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<ResponseData>
 ) {
-  const val = await QueryMember();
-  res.status(200).json({ message: val });
+  const val = await member.Get();
+  res.status(200).json({ response: val });
 }
