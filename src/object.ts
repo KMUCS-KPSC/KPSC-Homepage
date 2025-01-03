@@ -1,44 +1,57 @@
 import { parseProp, QueryMember } from "./notion";
 
-type MemberData = {
-  name: String;
-  active: boolean;
-  num: number;
-  department: String;
-  phone: String;
-  boj: String;
-  email: String;
-};
+let MemberArray: Array<Member> = [];
 
 class Member {
-  data: Array<MemberData> = [];
+  name: String = "";
+  active: boolean = true;
+  num: number = 0;
+  department: String = "";
+  phone: String = "";
+  boj: String = "";
+  email: String = "";
 
+  constructor(prop: any) {
+    this.name = parseProp(prop["이름"]);
+    this.active = parseProp(prop["Active"]);
+    this.num = parseProp(prop["학번"]);
+    this.department = parseProp(prop["학과"]);
+    this.phone = parseProp(prop["전화번호"]);
+    this.boj = parseProp(prop["백준 핸들"]);
+    this.email = parseProp(prop["이메일"]);
+
+    return this;
+  }
+
+  Get() {
+    return {
+      name: this.name,
+      department: this.department,
+      boj: this.boj,
+      email: this.email,
+    };
+  }
+}
+
+class MemberList {
   constructor() {
     this.Update();
   }
 
   Update = async () => {
-    const query = await QueryMember();
-
-    query["results"].forEach((elem: any) => {
-      const data = elem["properties"];
-      const ret: MemberData = {
-        name: parseProp(data["이름"]),
-        active: parseProp(data["Active"]),
-        num: parseProp(data["학번"]),
-        department: parseProp(data["학과"]),
-        phone: parseProp(data["전화번호"]),
-        boj: parseProp(data["백준 핸들"]),
-        email: parseProp(data["이메일"]),
-      };
-      this.data.push(ret);
-    });
+    // caching logic if expression. TBD
+    if (MemberArray.length == 0) {
+      const query = await QueryMember();
+      MemberArray = query["results"].map(
+        (elem: any) => new Member(elem["properties"])
+      );
+    }
   };
 
   Get = async () => {
     await this.Update();
-    return this.data;
+    return MemberArray.map((elem) => elem.Get());
   };
 }
 
-export { Member };
+export { Member, MemberList };
