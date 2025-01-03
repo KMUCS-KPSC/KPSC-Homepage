@@ -26,12 +26,14 @@ function parseProp(prop: any): any {
   }
 }
 
-async function QueryMember(): Promise<any> {
-  const databaseId = process.env.MEMBERDB;
-  const response = await notion.databases.query({
+async function Query(type: "Member" | "Achievements"): Promise<any> {
+  let databaseId;
+  if (type == "Member") databaseId = process.env.MEMBERDB;
+  else databaseId = process.env.ACHIEVEDB;
+
+  return await notion.databases.query({
     database_id: databaseId,
   });
-  return response;
 }
 
-export { QueryMember, parseProp };
+export { Query, parseProp };
