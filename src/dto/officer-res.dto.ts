@@ -1,10 +1,10 @@
 export default class officerRes {
-  year?: number;
-  list: officer[] = [];
-}
+  year?: number; // 년도
 
-class officer {
-  name?: string; // 이름
-  id?: number; // PK
-  type?: string; // 직책, 팀
+  team?: string; // 부서명
+
+  list?: {
+    name?: string; // 이름
+    id?: number; // memberRes PK Value
+  }[]; // 부서 구성원
 }
