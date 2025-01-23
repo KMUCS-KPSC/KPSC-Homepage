@@ -13,7 +13,7 @@ export default class memberRes {
 
   isActive?: boolean; // 활동 부원 여부 True/False
 
-  year?: number[]; // 활동 년도
+  year?: number[]; // 활동 년도 리스트
 
   summary?: string; // 하고싶은 말
 }
